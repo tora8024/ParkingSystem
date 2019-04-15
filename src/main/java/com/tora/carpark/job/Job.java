@@ -16,7 +16,7 @@ import com.tora.carpark.eunm.TransportEunm;
 import com.tora.carpark.space.ParkingSpace;
 import com.tora.carpark.tx.TxRecord;
 
-public class Job implements Runnable {
+public abstract  class Job implements Runnable {
 
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 	Logger logger = Logger.getLogger(Job.class);
@@ -26,10 +26,6 @@ public class Job implements Runnable {
 	protected CarPark cp;
 
 	
-	public Job( CarPark cp) {
-		super();
-		new Job( status, cp, maxRandomNumber);
-	}
 	
 	public Job( StatusEunm status,CarPark cp, int maxRandomNumber) {
 		super();

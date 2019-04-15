@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 
+import com.tora.carpark.job.DisplayJob;
 import com.tora.carpark.job.LeavingJob;
 import com.tora.carpark.job.ParkingJob;
 
@@ -24,7 +25,10 @@ public class AppMain {
 		Thread thread2=new Thread(job2);
 		thread2.setPriority(7);
 		
-		Thread thread3=new Thread(cp);
+
+		DisplayJob job3 = new DisplayJob(cp);
+		Thread thread3=new Thread(job3);
+		
 		
 		ScheduledExecutorService executor = Executors.newScheduledThreadPool(3);
 		executor.scheduleAtFixedRate(thread1,0,	10,	TimeUnit.SECONDS);

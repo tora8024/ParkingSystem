@@ -41,7 +41,7 @@ public class TestParkingSystem {
 		try{
 			CarPark cp=new CarPark();
 			cp.setSpaceList(new ArrayList<ParkingSpace>());
-			cp.genParkingSpace(0, TransportEunm.Motorcycle);
+			cp.genParkingSpace(0, TransportEunm.Motorcycle,10);
 			ParkingSpace  parkingSpace  =cp.getAvailableParkingSlot(TransportEunm.Motorcycle);
 			
 			Assert.assertEquals(null,parkingSpace);
@@ -57,7 +57,7 @@ public class TestParkingSystem {
 		try{
 			CarPark cp=new CarPark();
 			cp.setSpaceList(new ArrayList<ParkingSpace>());
-			cp.genParkingSpace(1, TransportEunm.Motorcycle);
+			cp.genParkingSpace(1, TransportEunm.Motorcycle,10);
 			ParkingSpace  parkingSpace  =cp.getAvailableParkingSlot(TransportEunm.Car);
 			
 			Assert.assertEquals(null,parkingSpace);

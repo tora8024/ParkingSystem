@@ -1,8 +1,12 @@
 package com.tora.carpark;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+
+
 
 
 
@@ -14,14 +18,14 @@ import org.apache.log4j.Logger;
 
 
 
+
+
+
 import com.tora.carpark.eunm.StatusEunm;
 import com.tora.carpark.eunm.TransportEunm;
-import com.tora.carpark.fee.CarFee;
-import com.tora.carpark.fee.SmallbusFee;
-import com.tora.carpark.fee.MotorcycleFee;
+import com.tora.carpark.fee.TransportFee;
 import com.tora.carpark.space.ParkingSpace;
-import com.tora.carpark.tx.TxRecord;
-public class CarPark implements Runnable{
+public class CarPark {
 	Logger logger = Logger.getLogger(CarPark.class);
 
 	private List<ParkingSpace> spaceList=new ArrayList<ParkingSpace>();
@@ -32,9 +36,9 @@ public class CarPark implements Runnable{
 	
 	private void initalData(){
 		
-		genParkingSpace(15, TransportEunm.Motorcycle);
-		genParkingSpace(20, TransportEunm.Car);
-		genParkingSpace(5, TransportEunm.SmallBus);		
+		genParkingSpace(15, TransportEunm.Motorcycle, 10);
+		genParkingSpace(20, TransportEunm.Car , 30);
+		genParkingSpace(5, TransportEunm.SmallBus,40);		
 	}
 	
 	
@@ -64,24 +68,10 @@ public class CarPark implements Runnable{
 	}
 	
 	
-	public void genParkingSpace(int amount, TransportEunm transport){
+	public void genParkingSpace(int amount, TransportEunm transport, int fee){
 		
 		for(int i =0;i<amount;i++ ){
-			
-			switch (transport){
-				case Car :
-					spaceList.add( new ParkingSpace(new CarFee(), i)  );
-					break;
-				case SmallBus :
-					spaceList.add( new ParkingSpace(new SmallbusFee(), i)  );
-					break;
-				case Motorcycle :
-					spaceList.add( new ParkingSpace(new MotorcycleFee(), i)  );
-					break;
-				default :
-					logger.error(String.format("This transport type: %s is not definde.",transport.toString()));
-					break;					
-			}
+			spaceList.add( new ParkingSpace( new TransportFee(transport, fee) , i)  );
 		}
 	}
 
@@ -96,22 +86,6 @@ public class CarPark implements Runnable{
 	}
 
 
-	@Override
-	public void run() {
-		try {
-			synchronized (this) {
-
-				logger.info(String.format("Available parking slots for motorcycles: %s, for cars: %s, for small buses: %s"
-						, String.valueOf(countAvailableParkingSpace(TransportEunm.Motorcycle))
-						, String.valueOf(countAvailableParkingSpace(TransportEunm.Car))
-						, String.valueOf(countAvailableParkingSpace(TransportEunm.SmallBus))) );
-					
-			}
-		} catch (Exception e) {
-			logger.error(String.format("Report current parking status fail, exception:%s", e.getMessage()),e);
-
-		}
-	}
 
 
 	
